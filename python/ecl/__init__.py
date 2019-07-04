@@ -134,6 +134,7 @@ from .ecl_util import EclFileEnum, EclFileFlagEnum, EclPhaseEnum, EclUnitTypeEnu
 from .util.util import EclVersion
 from .util.util import updateAbortSignals
 
+
 updateAbortSignals( )
 
 def root():
