@@ -4,8 +4,12 @@ project( ERT C CXX )
 include(GNUInstallDirs)
 include(TestBigEndian)
 
-if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 OLD)
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  # There is some weirdness around this variable, the default value is different depending on
+  # the cmake version, see policy CMP0042.
+  # A more explicit way to treat this would be `cmake_policy(SET CMP0042 NEW)` but that would
+  # fail on CMake 2.8.12 (the variable exists but the policy doesn't)
+  set(CMAKE_MACOSX_RPATH ON)
 endif()
 
 #-----------------------------------------------------------------
@@ -257,6 +261,7 @@ try_compile( HAVE_SIGBUS  ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/Tests/
 try_compile( HAVE_PID_T   ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/Tests/test_pid_t.c )
 try_compile( HAVE_MODE_T  ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/Tests/test_mode_t.c )
 try_compile( ERT_HAVE_ISFINITE ${CMAKE_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/Tests/test_isfinite.c)
+try_compile( HAVE_SIGHANDLER_T ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/Tests/test_have_sighandler.c)
 
 if (ERT_HAVE_READLINKAT)
   try_compile( ERT_HAVE_READLINKAT_DECLARATION
